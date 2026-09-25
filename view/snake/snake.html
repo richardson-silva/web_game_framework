@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game Vanilla</title>
+    <link rel="stylesheet" href="snake.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Interface de Usuário (UI) que fica por cima do Canvas -->
+        <div id="ui-layer">
+            
+            <!-- Menu Inicial -->
+            <div id="start-screen" class="screen">
+                <h1>SNAKE GAME</h1>
+                <p>Use as setinhas para jogar</p>
+                <button id="btn-start">Começar</button>
+            </div>
+
+            <!-- Tela de Game Over -->
+            <div id="game-over-screen" class="screen" style="display: none;">
+                <h1>FIM DE JOGO</h1>
+                <p>Pontuação: <span id="final-score">0</span></p>
+                <button id="btn-restart">Tentar Novamente</button>
+                <button id="btn-menu">Voltar ao Menu</button>
+            </div>
+
+            <!-- HUD (Placar durante o jogo) -->
+            <div id="hud" style="display: none;">
+                Pontos: <span id="score">0</span>
+            </div>
+
+        </div>
+
+        <div class="game-canvas">
+            <canvas id="game-canvas"></canvas>
+        </div>
+    </div>
+    
+    <script src="../../scripts/snake_main.js" type="module"></script>
+</body>
+</html>

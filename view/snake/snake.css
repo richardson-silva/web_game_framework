@@ -7,32 +7,54 @@ body {
 
 .game-container {
     display: flex;
+    flex-direction: row; /* Coloca os elementos lado a lado */
     align-items: center;
     justify-content: center;
     width: 100vw;
     height: 100vh;
-    position: relative;
+    gap: 20px; /* Cria um espaço limpo entre o jogo e o gráfico */
 }
 
-.game-canvas {
+/* Esta é a caixa mágica que prende a UI ao jogo */
+.game-area {
+    position: relative; 
+    width: 600px;
+    height: 500px;
+}
+
+/* Estilo do canvas do Jogo */
+#game-canvas {
+    width: 100%;
+    height: 100%;
     border: 4px solid #ecf0f1;
     border-radius: 8px;
-    width: 600px;
-    height: 500px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     background-color: #1a1a1a;
+    display: block; /* Remove margens fantasmas na parte inferior */
 }
 
-/* Permite UI em cima do canvas */
+/* O Menu agora obedece os limites da game-area */
 #ui-layer {
     position: absolute;
-    width: 600px;
-    height: 500px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 10; /* Garante que fique por cima do jogo */
+}
+
+/* Estilo do canvas do Gráfico */
+#chart-canvas {
+    border: 4px solid #ecf0f1;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    display: block;
 }
 
 .screen {

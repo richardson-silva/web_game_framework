@@ -1,7 +1,8 @@
 import { configs } from "../global.js";
 import { Snake } from "./entities/snake.js";
 import { Food } from "./entities/food.js";
-import { Particles } from "./entities/particles.js"; // Reaproveitando seu código!
+import { Particles } from "./entities/particles.js";
+import { ScoreChart } from "./entities/chart.js";
 
 // Variáveis de Estado do Jogo
 let canvas, ctx;
@@ -9,6 +10,8 @@ let snake, food;
 let particlesArray = [];
 let score = 0;
 let gameState = "MENU"; // "MENU", "PLAYING", "GAMEOVER"
+let chart;
+let lastMealTime = 0; // Regista a última vez que a snake pontuou
 
 // Controle de tempo (Frame Limiter)
 let lastTime = 0;
@@ -22,6 +25,7 @@ window.onload = () => {
 function _init() {
     // 1. Configura o Canvas
     canvas = document.getElementById("game-canvas");
+    chart = new ScoreChart("chart-canvas");
     ctx = canvas.getContext("2d");
     canvas.width = configs.canvasWidth;
     canvas.height = configs.canvasHeight;
@@ -47,6 +51,8 @@ function startGame() {
     snake.reset();
     food.respawn(snake.body);
     score = 0;
+    chart.reset();
+    lastMealTime = Date.now();
     particlesArray = [];
     updateScoreUI();
     
@@ -119,6 +125,7 @@ function _update(deltaTime) {
         snake.grow();
         createExplosion(food.x, food.y); // Efeito das partículas!
         food.respawn(snake.body);
+        atualizandoDadosChart()
     }
 
     // Checa se morreu
@@ -141,6 +148,8 @@ function _draw() {
     food.selfDraw(ctx);
     snake.selfDraw(ctx);
     particlesArray.forEach(p => p.selfDraw(ctx));
+
+    chart.selfDraw();
 }
 
 function updateScoreUI() {
@@ -150,10 +159,17 @@ function updateScoreUI() {
 // O Motor do Canvas
 function _gameLoop(timestamp) {
     const deltaTime = timestamp - lastTime;
-    lastTime = timestamp;
+    lastTime = timestamp; // deltaTime utilizado para controlar os frames/atualizacao
 
     _update(deltaTime);
     _draw();
 
     requestAnimationFrame(_gameLoop);
+}
+
+function atualizandoDadosChart(){
+    const currentTime = Date.now();
+    const timeTaken = (currentTime - lastMealTime) / 1000; // Divide por 1000 para ter em segundos
+    lastMealTime = currentTime; // Reinicia o cronómetro para a próxima maçã
+    chart.addData(timeTaken); 
 }
